@@ -346,12 +346,7 @@ var DirtyState = {
     rolledBack: function(record) {
       get(record, 'errors').clear();
 
-      if (record.get('isNew')) {
-        DirtyState.uncommitted.rollback.apply(this, arguments);
-        record.transitionTo('deleted.saved');
-      } else {
-        record.transitionTo('loaded.saved');
-      }
+      record.transitionTo('loaded.saved');
     },
 
     becameValid: function(record) {
@@ -410,6 +405,7 @@ var createdState = dirtyState({
 createdState.invalid.rolledBack = function(record) {
   record.transitionTo('deleted.saved');
 };
+
 createdState.uncommitted.rolledBack = function(record) {
   record.transitionTo('deleted.saved');
 };
